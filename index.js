@@ -54,6 +54,30 @@ async function run() {
       res.send(result);
     })
 
+    app.get('/api/contacts/sort/:sort', async (req, res) => {
+      const sort = req.params.sort;
+      console.log(sort)
+      let sortOption = {};
+      if (sort === 'asc') {
+        sortOption = { name: 1 }; 
+      }
+      else if (sort === 'desc') {
+        sortOption = { name: -1 };
+      }
+  
+      const result = await contactsCollection
+      .find({})
+      .sort(sortOption)
+      .toArray();
+
+    if (sort === 'asc') {
+      result.sort((a, b) => a.name.localeCompare(b.name, 'en'));
+    } else if (sort === 'desc') {
+      result.sort((a, b) => b.name.localeCompare(a.name, 'en'));
+    }
+        res.send(result);
+    })
+
     
 
     // app.all("*", (req, res) => {
