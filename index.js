@@ -83,7 +83,14 @@ async function run() {
       const result = await contactsCollection.insertOne(data);
       res.send(result);
     });
-    
+    app.put("/api/contacts/:id", async (req, res) => {
+      const id = req.params.id;
+      const data = req.body;
+      const query = { _id: new ObjectId(id) };
+      const result = await contactsCollection.updateOne(query, { $set: data });
+      res.send(result);
+    });
+   
 
     // app.all("*", (req, res) => {
     //   res.status(404).send("Not Found");
