@@ -78,6 +78,11 @@ async function run() {
         res.send(result);
     })
 
+    app.post("/api/contacts", async (req, res) => {
+      const data = req.body;
+      const result = await contactsCollection.insertOne(data);
+      res.send(result);
+    });
     
 
     // app.all("*", (req, res) => {
