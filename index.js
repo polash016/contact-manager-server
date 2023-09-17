@@ -42,6 +42,18 @@ async function run() {
       res.send(result);
     });
 
+    app.get('/api/contacts/:searchText', async (req, res) => {
+      const searchText = req.params.searchText;
+      const query = {
+      $or: [
+        { name: { $regex: searchText, $options: 'i' } }, 
+        { email: { $regex: searchText, $options: 'i' } },
+      ],
+    };
+      const result = await contactsCollection.find(query).toArray();
+      res.send(result);
+    })
+
     
 
     // app.all("*", (req, res) => {
